@@ -25,24 +25,23 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   dbconn.query(
-    "SELECT nickname, password FROM user WHERE email = ?",
+    "SELECT id_user, nickname, password FROM user WHERE email = ?",
     [req.body.email],
     function (error, passwordFromDB) {
       if (passwordFromDB == []) {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
-      if(err) res.status(401).json({ error });
+      if(error) res.status(401).json({ error });
       bcrypt
         .compare(req.body.password, passwordFromDB[0].password)
         .then((valid) => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
-          res.status(200).json("Bon retour sur notre site "+passwordFromDB[0].nickname);
-          /*.json({
-          /*  userId: user._id,
-            token: jwt.sign({ userId: user._id },process.env.PASSWORD_SECRET_TOKEN,{expiresIn: "24h",}),
-          });*/
+          res.status(200).json({    
+            userId: passwordFromDB[0].id_user,
+            token: jwt.sign({ userId: passwordFromDB[0].id_user },process.env.PASSWORD_SECRET_TOKEN,{expiresIn: "24h",}),
+          });
         });
     }
   );
@@ -61,7 +60,7 @@ exports.deleteUser = (req, res, next) => {
     [req.params.id],
     function (err) {
       if (err) res.status(400).json({message :"Ressources non trouvées "+ err}) ;
-      res.status(204).json({ message: "Utilisateur supprimé !" });
+      res.status(203).json({ message: "Utilisateur supprimé !" });
     }
   );
 };

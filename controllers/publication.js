@@ -33,7 +33,14 @@ exports.deletePublication = (req, res, next) => {
     function (err) {
       if (err)
         res.status(400).json({ message: "Ressources non trouvées " + err });
-      else res.status(203).json({ message: "Publication supprimée !" });
+      else res.status(200).json({ message: "Publication supprimée !" });
     }
   );
+};
+
+exports.getAllPublication = (req, res, next) => {
+  dbconn.query("SELECT * FROM publication", function (err, publications) {
+    if (err) res.status(400).json({ message : "Ressources non trouvé" + err}) ;
+    else res.status(200).json({ publications });
+  });
 };
