@@ -1,21 +1,15 @@
 const express = require("express");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
 const path = require("path");
 const rateLimit = require("express-rate-limit");
+
 require("dotenv").config();
 
-const sauceRoutes = require("./routes/sauces");
 const userRoutes = require("./routes/user");
-
-mongoose
-  .connect(process.env.MONGOOSE_SECRET_TOKEN, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch(() => console.log("Connexion à MongoDB échouée !"));
+const publicationRoutes = require("./routes/publication");
+const reactRoutes = require('./routes/react');
+const commentRoutes = require('./routes/comment');
 
 const app = express();
 
@@ -45,7 +39,10 @@ app.use(bodyParser.json());
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-app.use("/api/sauces", sauceRoutes);
-app.use("/api/auth", userRoutes);
+
+app.use("/api/user", userRoutes);
+app.use("/api/publication", publicationRoutes);
+app.use("/api/react",reactRoutes);
+app.use("/api/comment",commentRoutes);
 
 module.exports = app;

@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Backend du site \"*So Pekocko*\"",
+  "description": "Backend du site \"*CompanyNetwork*\"",
   "main": "app.js",
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -11,9 +11,8 @@
     "helmet": "^4.2.0",
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose-unique-validator": "^2.0.3",
-    "mongoose": "^5.10.13",
     "multer": "^1.4.2",
+    "mysql": "2.18.1",
     "password-validator": "^5.1.1"
   },
   "devDependencies": {},
