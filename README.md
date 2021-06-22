@@ -6,5 +6,6 @@ Pour faire fonction le projet faite un ficher .env dans le fichier root de votre
 
 Pour lancer le serveur il faut écrire:
 
-```nodemon serv```
+```node server```
+
 
