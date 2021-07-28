@@ -17,11 +17,9 @@ exports.signup = (req, res) => {
       };
       dbconn.query("INSERT INTO user SET ?", [user], function (err) {
         if (err) {
-          res
-            .status(500)
-            .json({
-              message: "Probleme lors de la création de l'utilisateur !" + err,
-            });
+          res.status(500).json({
+            message: "Probleme lors de la création de l'utilisateur !" + err,
+          });
         } else {
           res.status(201).json({ message: "Utilisateur créé !" });
         }

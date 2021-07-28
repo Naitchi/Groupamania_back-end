@@ -8,6 +8,7 @@ exports.createPublication = (req, res) => {
     content: req.body.content,
     date_add: datetime,
   };
+  console.log(publication);
   dbconn.query("INSERT INTO publication SET ?", [publication], function (err) {
     if (err) {
       res.status(500).json({ message: "erreur :  " + err });
