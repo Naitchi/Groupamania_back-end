@@ -4,7 +4,19 @@ const fs = require("fs");
 
 const dbconn = require("../db_connection.js");
 
-//demander son téléphone, sa date de naissance et son pseudo en plus
+//Route pour retrouver l'id de l'utilisateur: ce sert du token dans le localstore
+exports.me = (req, res) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const user_Id = jwt.verify(token, process.env.PASSWORD_SECRET_TOKEN);
+    res.status(200).json({ user_Id });
+  } catch {
+    res.status(404).json({
+      error: new Error("Aucun Utilisateur avec cet ID!"),
+    });
+  }
+};
+
 exports.signup = (req, res) => {
   bcrypt
     .hash(req.body.password, 10)
