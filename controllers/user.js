@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
 const dbconn = require("../db_connection.js");
 
@@ -92,4 +93,31 @@ exports.getUser = (req, res) => {
       }
     }
   );
+};
+
+exports.modify = (req, res) => {
+  bcrypt
+    .hash(req.body.password, 10)
+    .then((hash) => {
+      const user = {
+        email: req.body.email,
+        password: hash,
+        nickname: req.body.nickname,
+        birthday: req.body.birthday,
+        phone: req.body.phone,
+        image: `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`,
+      };
+      dbconn.query("INSERT INTO user SET ?", [user], function (err) {
+        if (err) {
+          res.status(500).json({
+            message: "Probleme lors de la création de l'utilisateur !" + err,
+          });
+        } else {
+          res.status(201).json({ message: "Utilisateur créé !" });
+        }
+      });
+    })
+    .catch((error) => res.status(500).json({ error }));
 };

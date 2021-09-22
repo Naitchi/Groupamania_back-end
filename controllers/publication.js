@@ -1,12 +1,14 @@
-//const fs = require("fs");
+const fs = require("fs");
 const dbconn = require("../db_connection.js");
 
 exports.createPublication = (req, res) => {
+  console.log(req.image);
   const datetime = new Date();
   const publication = {
     user_id_user: req.body.id_user,
     content: req.body.content,
     date_add: datetime,
+    image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
   };
   console.log(publication);
   dbconn.query("INSERT INTO publication SET ?", [publication], function (err) {
