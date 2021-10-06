@@ -49,11 +49,14 @@ exports.deletePublication = (req, res) => {
 };
 
 exports.getAllPublication = (req, res) => {
-  dbconn.query("SELECT * FROM publication", function (err, publications) {
-    if (err) {
-      res.status(400).json({ message: "Ressources non trouvé" + err });
-    } else {
-      res.status(200).json({ publications });
+  dbconn.query(
+    "SELECT * FROM publication ORDER BY id_publication DESC",
+    function (err, publications) {
+      if (err) {
+        res.status(400).json({ message: "Ressources non trouvé" + err });
+      } else {
+        res.status(200).json({ publications });
+      }
     }
-  });
+  );
 };
