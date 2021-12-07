@@ -2,7 +2,7 @@ const fs = require("fs");
 const dbconn = require("../db_connection.js");
 
 exports.createPublication = (req, res) => {
-  console.log(req.image);
+  console.log("create publication");
   const datetime = new Date();
   const publication = {
     user_id_user: req.body.id_user,
@@ -21,6 +21,7 @@ exports.createPublication = (req, res) => {
 };
 
 exports.getOnePublication = (req, res) => {
+  console.log("getOnePublication");
   dbconn.query(
     "SELECT * FROM `publication` where id_publication = ?",
     [req.params.id],
@@ -35,6 +36,7 @@ exports.getOnePublication = (req, res) => {
 };
 
 exports.deletePublication = (req, res) => {
+  console.log("deletePublication");
   dbconn.query(
     "DELETE FROM publication WHERE id_publication = ?",
     [req.params.id],
@@ -49,8 +51,24 @@ exports.deletePublication = (req, res) => {
 };
 
 exports.getAllPublication = (req, res) => {
+  console.log("getallpublications");
   dbconn.query(
-    "SELECT * FROM publication ORDER BY id_publication DESC",
+    "SELECT id_user, nickname, profilepicture, id_publication, user_id_user, content, date_add, image FROM user JOIN publication ON user.id_user = publication.user_id_user ORDER BY publication.id_publication DESC",
+    function (err, publications) {
+      if (err) {
+        res.status(400).json({ message: "Ressources non trouvé" + err });
+      } else {
+        res.status(200).json({ publications });
+      }
+    }
+  );
+};
+
+exports.getAllPublicationFromUser = (req, res) => {
+  console.log("getallpublication from an User");
+  dbconn.query(
+    "SELECT * FROM publication WHERE user_id_user = ? ORDER BY id_publication DESC",
+    [req, params, id],
     function (err, publications) {
       if (err) {
         res.status(400).json({ message: "Ressources non trouvé" + err });

@@ -3,21 +3,22 @@ const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const path = require("path");
 const rateLimit = require("express-rate-limit");
+const cors = require("cors");
 
 require("dotenv").config();
 
 const userRoutes = require("./routes/user");
 const publicationRoutes = require("./routes/publication");
-const reactRoutes = require('./routes/react');
-const commentRoutes = require('./routes/comment');
+const reactRoutes = require("./routes/react");
+const commentRoutes = require("./routes/comment");
 
 const app = express();
-
+app.use(cors());
 app.use(helmet());
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests
+  max: 1000, // limit each IP to 100 requests
 });
 
 app.use(limiter);
@@ -39,10 +40,9 @@ app.use(bodyParser.json());
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-
 app.use("/api/user", userRoutes);
 app.use("/api/publication", publicationRoutes);
-app.use("/api/react",reactRoutes);
-app.use("/api/comment",commentRoutes);
+app.use("/api/react", reactRoutes);
+app.use("/api/comment", commentRoutes);
 
 module.exports = app;
