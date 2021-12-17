@@ -20,21 +20,6 @@ exports.createPublication = (req, res) => {
   });
 };
 
-exports.getOnePublication = (req, res) => {
-  console.log("getOnePublication");
-  dbconn.query(
-    "SELECT * FROM `publication` where id_publication = ?",
-    [req.params.id],
-    function (err, publication) {
-      if (err) {
-        res.status(400).json({ message: "Ressources non trouvées " + err });
-      } else {
-        res.status(201).json(publication);
-      }
-    }
-  );
-};
-
 exports.deletePublication = (req, res) => {
   console.log("deletePublication");
   dbconn.query(
@@ -45,6 +30,23 @@ exports.deletePublication = (req, res) => {
         res.status(400).json({ message: "Ressources non trouvées " + err });
       } else {
         res.status(200).json({ message: "Publication supprimée !" });
+      }
+    }
+  );
+};
+
+exports.getOnePublication = (req, res) => {
+  console.log("getOnePublication");
+  dbconn.query(
+    "SELECT id_user, nickname, profilepicture, id_publication, user_id_user, content, date_add, image FROM user JOIN publication ON user.id_user = publication.user_id_user WHERE id_publication = ?",
+    [req.params.id],
+    function (err, publication) {
+      if (err) {
+        res.status(400).json({ message: "Ressources non trouvées " + err });
+      } else if (publication.length == 0) {
+        res.status(404).json({ message: "Ressources absente " + err });
+      } else {
+        res.status(200).json({ publication: publication[0] });
       }
     }
   );
@@ -74,6 +76,49 @@ exports.getAllPublicationFromUser = (req, res) => {
         res.status(400).json({ message: "Ressources non trouvé" + err });
       } else {
         res.status(200).json({ publications });
+      }
+    }
+  );
+};
+
+exports.modifyPost = (req, res) => {
+  console.log("modifyPost");
+  const image = `${req.protocol}://${req.get("host")}/images/${
+    req.file.filename
+  }`;
+  const content = req.body.content;
+  dbconn.query(
+    `UPDATE publication SET image = ?,content = ? WHERE id_publication = ?`,
+    [image, content, req.body.id_publication],
+    function (err) {
+      if (err) {
+        res.status(500).json({
+          message: "Problème lors de la modification de l'image !" + err,
+        });
+      } else {
+        res.status(200).json({
+          message: "Photo de profil Modifiée !",
+          image,
+        });
+      }
+    }
+  );
+};
+
+exports.modifyPostContent = (req, res) => {
+  console.log("modifyPostContent");
+  dbconn.query(
+    `UPDATE publication SET content = ? WHERE id_publication = ?`,
+    [req.body.content, req.body.id_publication],
+    function (err) {
+      if (err) {
+        res.status(500).json({
+          message: "Problème lors de la modification du contenu !" + err,
+        });
+      } else {
+        res.status(200).json({
+          message: "Photo de profil Modifiée !",
+        });
       }
     }
   );

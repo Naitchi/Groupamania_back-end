@@ -10,5 +10,7 @@ router.get("/:id", publicationCtrl.getOnePublication);
 router.delete("/:id/delete", auth, publicationCtrl.deletePublication);
 router.get("/", publicationCtrl.getAllPublication);
 router.get("/:id", publicationCtrl.getAllPublicationFromUser);
+router.put("/modifyPost", auth, multer, publicationCtrl.modifyPost);
+router.put("/modifyPostContent", publicationCtrl.modifyPostContent);
 
 module.exports = router;
