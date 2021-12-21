@@ -12,6 +12,7 @@ router.get("/getAll", userCtrl.getAllUsers);
 router.get("/:id", userCtrl.getUser); //pour voir son profil
 router.delete("/:id/deleteAccount", auth, userCtrl.deleteUser);
 router.put("/modifyPP", multer, userCtrl.modifyPP);
-router.put("/modifyPassword", userCtrl.modifyPassword);
+router.put("/modifyPassword", auth, userCtrl.modifyPassword);
+router.put("/modifyUser", userCtrl.modifyUser);
 
 module.exports = router;

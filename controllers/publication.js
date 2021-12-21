@@ -117,7 +117,7 @@ exports.modifyPostContent = (req, res) => {
         });
       } else {
         res.status(200).json({
-          message: "Photo de profil Modifiée !",
+          message: "Post Modifié !",
         });
       }
     }

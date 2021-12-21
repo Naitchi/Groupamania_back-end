@@ -196,3 +196,30 @@ exports.getUser = (req, res) => {
     }
   );
 };
+
+exports.modifyUser = (req, res) => {
+  console.log("modifyUser");
+  console.log(req.body);
+  dbconn.query(
+    `UPDATE user SET nickname = ?, email = ?, phone = ?, birthday = ?, description = ? WHERE id_user = ?`,
+    [
+      req.body.nickname,
+      req.body.email,
+      req.body.phone,
+      req.body.birthday,
+      req.body.description,
+      req.body.id_user,
+    ],
+    function (err) {
+      if (err) {
+        res.status(500).json({
+          message: "Problème lors de la modification du profil !" + err,
+        });
+      } else {
+        res.status(200).json({
+          message: "Profil Modifié !",
+        });
+      }
+    }
+  );
+};
