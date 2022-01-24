@@ -120,7 +120,7 @@ exports.signup = (req, res) => {
         phone: req.body.phone,
         inscription_date: datetime,
         profilepicture:
-          "http://localhost:3000/images/E9a2n7HWQAUYsr2.jpg1633511891199.jpg",
+          "http://localhost:3000/images/icon-user-default-copy.png1633615080421.png",
       };
       dbconn.query("INSERT INTO user SET ?", [user], function (err) {
         if (err) {
@@ -177,6 +177,7 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.deleteUser = (req, res) => {
+  console.log("deleteUser");
   dbconn.query(
     "DELETE FROM user WHERE id_user = ?",
     [req.params.id],
@@ -184,7 +185,7 @@ exports.deleteUser = (req, res) => {
       if (err) {
         res.status(400).json({ message: "Ressources non trouvées " + err });
       } else {
-        res.status(203).json({ message: "Utilisateur supprimé !" });
+        res.status(200).json({ message: "Utilisateur supprimé !" });
       }
     }
   );
