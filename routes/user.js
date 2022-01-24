@@ -11,8 +11,8 @@ router.get("/me", userCtrl.me);
 router.get("/getAll", userCtrl.getAllUsers);
 router.get("/:id", userCtrl.getUser); //pour voir son profil
 router.delete("/:id", auth, userCtrl.deleteUser);
-router.put("/modifyPP", multer, userCtrl.modifyPP);
+router.put("/modifyPP", auth, multer, userCtrl.modifyPP);
 router.put("/modifyPassword", auth, userCtrl.modifyPassword);
-router.put("/modifyUser", userCtrl.modifyUser);
+router.put("/modifyUser", auth, userCtrl.modifyUser);
 
 module.exports = router;
