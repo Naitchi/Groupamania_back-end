@@ -7,7 +7,7 @@ const exp = require("constants");
 
 //si j'oublie le mot de passe pepelof 😁
 exports.crypt = (req, res) => {
-  console.log("test");
+  console.log("crypt");
   bcrypt.hash(req.body.string, 10).then((crypted) => {
     console.log(crypted);
     res.status(200).json({ crypted });
@@ -17,15 +17,21 @@ exports.crypt = (req, res) => {
 //Route pour retrouver l'id de l'utilisateur: ce sert du token dans le localstore
 exports.me = (req, res) => {
   console.log("/me");
-  try {
-    const token = req.headers.authorization.split(" ")[1];
-    const user_Id = jwt.verify(token, process.env.PASSWORD_SECRET_TOKEN);
-    res.status(200).json({ user_Id });
-  } catch {
-    res.status(404).json({
-      error: new Error("Aucun Utilisateur avec cet ID!"),
-    });
+  const token = req.headers.authorization.split(" ")[1];
+  const user_Id = jwt.verify(token, process.env.PASSWORD_SECRET_TOKEN);
+  if (user_Id == undefined) {
+    res.status(401).json({ message: "Aucun Utilisateur avec cet ID!" });
   }
+  dbconn.query(
+    "SELECT admin FROM user WHERE id_user = ?",
+    [user_Id.userId],
+    function (error, admin) {
+      if (error) res.status(401).json({ error });
+      console.log(user_Id);
+      console.log(admin);
+      res.status(200).json({ user_Id, admin });
+    }
+  );
 };
 
 exports.modifyPP = (req, res) => {
@@ -132,7 +138,7 @@ exports.signup = (req, res) => {
 exports.login = (req, res) => {
   console.log("login");
   dbconn.query(
-    "SELECT id_user, nickname, password FROM user WHERE email = ?",
+    "SELECT admin, id_user, nickname, password FROM user WHERE email = ?",
     [req.body.email],
     function (error, passwordFromDB) {
       if (passwordFromDB == []) {
@@ -147,6 +153,7 @@ exports.login = (req, res) => {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
           res.status(200).json({
+            admin: passwordFromDB[0].admin,
             userId: passwordFromDB[0].id_user,
             token: jwt.sign(
               { userId: passwordFromDB[0].id_user },

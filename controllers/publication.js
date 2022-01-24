@@ -38,7 +38,7 @@ exports.deletePublication = (req, res) => {
 exports.getOnePublication = (req, res) => {
   console.log("getOnePublication");
   dbconn.query(
-    "SELECT id_user, nickname, profilepicture, id_publication, user_id_user, content, date_add, image FROM user JOIN publication ON user.id_user = publication.user_id_user WHERE id_publication = ?",
+    "SELECT id_user, nickname, profilepicture, id_publication, content, date_add, image FROM user JOIN publication ON user.id_user = publication.user_id_user WHERE id_publication = ?",
     [req.params.id],
     function (err, publication) {
       if (err) {
@@ -55,7 +55,7 @@ exports.getOnePublication = (req, res) => {
 exports.getAllPublication = (req, res) => {
   console.log("getallpublications");
   dbconn.query(
-    "SELECT id_user, nickname, profilepicture, id_publication, user_id_user, content, date_add, image FROM user JOIN publication ON user.id_user = publication.user_id_user ORDER BY publication.id_publication DESC",
+    "SELECT id_user, nickname, profilepicture, id_publication,content, date_add, image FROM user JOIN publication ON user.id_user = publication.user_id_user ORDER BY publication.id_publication DESC",
     function (err, publications) {
       if (err) {
         res.status(400).json({ message: "Ressources non trouvé" + err });

@@ -3,9 +3,11 @@ const router = express.Router();
 const reactCtrl = require("../controllers/react");
 const auth = require("../middleware/auth");
 
-router.post("/",auth, reactCtrl.addReact);
-router.delete("/:id",auth, reactCtrl.deleteReact);
-router.get("/getReactFromComment/:id",reactCtrl.seeReactsFromAComment);
-router.get("/getReactFromPublication/:id",reactCtrl.seeReactsFromAPublication);
+router.post("/", reactCtrl.addReact);
+router.delete("/", reactCtrl.delete);
+router.get(
+  "/getReactsFromPublication/:id",
+  reactCtrl.getReactsFromAPublication
+);
 
 module.exports = router;
