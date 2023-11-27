@@ -56,7 +56,9 @@ Créez un nouveau compte utilisateur.
 POST api/user/signup
 ```
 
-**Body :**```json
+**Body :**
+
+```json
 {
   "email": "utilisateur@example.com",
   "password": "mot_de_passe",
@@ -80,7 +82,9 @@ POST api/user/login
    
 Authentifiez un utilisateur et générez un jeton.
 
-**Body :**```json
+**Body :**
+
+```json
 {
   "email": "utilisateur@example.com",
   "password": "mot_de_passe"
@@ -163,7 +167,8 @@ PUT api/user/modifyUser
 
 Modifiez les informations de l'utilisateur.
 
-**Body :**```json
+**Body :**
+```json
 {
   "id_user": 123,
   "nickname": "NomMisAJour",
@@ -188,7 +193,8 @@ PUT api/user/modifyPP
 
 Modifiez la photo de profil d'un utilisateur.
 
-**Body :**```json
+**Body :**
+```json
 {
   "id_user": 123
 }
@@ -208,7 +214,8 @@ PUT api/user/modifyPassword
 
 Modifiez le mot de passe d'un utilisateur.
 
-**Body :**```json
+**Body :**
+```json
 {
   "email": "utilisateur@example.com",
   "oldPassword": "ancien_mot_de_passe",
@@ -467,11 +474,12 @@ POST api/react/addReact
 Ajoutez une nouvelle réaction à une publication.
 
 **Body :**
-json
+```json
 {
   "id_user": 123,
   "id_publication": 456
 }
+```
 **Response :**
 ```json
 {
