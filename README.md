@@ -47,32 +47,84 @@ Lancer le serveur :
 
 ## Documentation : 
 
+1. Signup
+Créez un nouveau compte utilisateur.
+
 ```vbnet
-GET api/user/me 
+POST api/user/signup
 ```
+
+**Body**
+```json
+{
+  "email": "utilisateur@example.com",
+  "password": "mot_de_passe",
+  "nickname": "JohnDoe",
+  "birthday": "1990-01-01",
+  "phone": "+123456789"
+}
+```
+
+**Response :**
+```json
+{
+  "message": "Utilisateur créé !"
+}
+```
+2. Login
+
+```vbnet
+POST api/user/login
+```
+   
+Authentifiez un utilisateur et générez un jeton.
+
+**Body**
+```json
+{
+  "email": "utilisateur@example.com",
+  "password": "mot_de_passe"
+}
+```
+**Response :**
+```json
+{
+  "admin": true,
+  "userId": 123,
+  "token": "jeton_utilisateur"
+}
+```
+3. Obtenir l'utilisateur actuel
+
+```vbnet
+GET api/user/me
+```
+   
 Obtenez des informations sur l'utilisateur actuellement authentifié.
 
-**HEAD :**  
+En-têtes de la requête :
 ```json
 Authorization: Bearer <jeton_utilisateur>
 ```
 **Response :**
 ```json
 {
-  "user_Id":{
-    "user_Id": 123
+  "user_Id": {
+    "userId": 123
   },
   "admin": true
 }
 ```
-<br/>
+4. Obtenir tous les utilisateurs
 
 ```vbnet
-GET api/user/getAllUsers 
+GET api/user/getAllUsers
 ```
+   
 Récupérez la liste de tous les utilisateurs.
 
 **Response :**
+
 ```json
 {
   "users": [
@@ -85,11 +137,12 @@ Récupérez la liste de tous les utilisateurs.
   ]
 }
 ```
-<br/>
+5. Obtenir l'utilisateur par ID
 
 ```vbnet
-GET api/user/:id 
+GET api/user/getUser/:id
 ```
+
 Récupérez un utilisateur par son ID.
 
 **Response :**
@@ -102,7 +155,89 @@ Récupérez un utilisateur par son ID.
   }
 }
 ```
+6. Modifier l'utilisateur
 
+```vbnet
+PUT api/user/modifyUser
+```
+
+Modifiez les informations de l'utilisateur.
+
+**Body**
+```json
+{
+  "id_user": 123,
+  "nickname": "NomMisAJour",
+  "email": "misajour@example.com",
+  "phone": "+987654321",
+  "birthday": "1990-01-01",
+  "description": "Description utilisateur mise à jour"
+}
+```
+**Response :**
+```json
+{
+  "message": "Profil modifié !"
+}
+```
+
+7. Modifier la photo de profil
+
+```vbnet
+PUT api/user/modifyPP
+```
+
+Modifiez la photo de profil d'un utilisateur.
+
+**Body**
+```json
+{
+  "id_user": 123
+}
+```
+**Response :**
+```json
+{
+  "message": "Photo de profil modifiée !",
+  "image": "http://votre-url-de-base-de-lapi.com/images/photo-profil-utilisateur.jpg"
+}
+```
+8. Modifier la photo de profil
+
+```vbnet
+PUT api/user/modifyPassword
+```
+
+Modifiez le mot de passe d'un utilisateur.
+
+**Body**
+```json
+{
+  "email": "utilisateur@example.com",
+  "oldPassword": "ancien_mot_de_passe",
+  "newPassword": "nouveau_mot_de_passe"
+}
+```
+**Response :**
+```json
+{
+  "message": "Mot de passe modifié !"
+}
+```
+9. Supprimer l'utilisateur
+
+```vbnet
+DELETE api/user/deleteUser/:id
+```
+
+Supprimez un utilisateur par son ID.
+
+**Response :**
+```json
+{
+  "message": "Utilisateur supprimé !"
+}
+```
 
 ## Contact
 
