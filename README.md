@@ -47,9 +47,61 @@ Lancer le serveur :
 
 ## Documentation : 
 
+```vbnet
+GET api/user/me 
+```
+Obtenez des informations sur l'utilisateur actuellement authentifié.
 
-// TODO 
+**HEAD :**  
+```json
+Authorization: Bearer <jeton_utilisateur>
+```
+**Response :**
+```json
+{
+  "user_Id":{
+    "user_Id": 123
+  },
+  "admin": true
+}
+```
+<br/>
 
+```vbnet
+GET api/user/getAllUsers 
+```
+Récupérez la liste de tous les utilisateurs.
+
+**Response :**
+```json
+{
+  "users": [
+    {
+      "id_user": 1,
+      "email": "utilisateur1@example.com",
+      // Autres propriétés de l'utilisateur
+    },
+    // Autres utilisateurs
+  ]
+}
+```
+<br/>
+
+```vbnet
+GET api/user/:id 
+```
+Récupérez un utilisateur par son ID.
+
+**Response :**
+```json
+{
+  "user": {
+    "id_user": 1,
+    "email": "utilisateur1@example.com",
+    // Autres propriétés de l'utilisateur
+  }
+}
+```
 
 
 ## Contact
