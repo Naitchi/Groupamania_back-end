@@ -3,7 +3,7 @@
 # 💻 **Groupamania Back-end**
 
 <pre>
-Back-end du site **Groupamania**, un réseau social d'entreprise.
+Back-end du site Groupamania, un réseau social d'entreprise.
 </pre>
   
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
@@ -47,6 +47,8 @@ Lancer le serveur :
 
 ## Documentation : 
 
+### User
+
 1. Signup
 Créez un nouveau compte utilisateur.
 
@@ -54,8 +56,7 @@ Créez un nouveau compte utilisateur.
 POST api/user/signup
 ```
 
-**Body**
-```json
+**Body :**```json
 {
   "email": "utilisateur@example.com",
   "password": "mot_de_passe",
@@ -79,8 +80,7 @@ POST api/user/login
    
 Authentifiez un utilisateur et générez un jeton.
 
-**Body**
-```json
+**Body :**```json
 {
   "email": "utilisateur@example.com",
   "password": "mot_de_passe"
@@ -163,8 +163,7 @@ PUT api/user/modifyUser
 
 Modifiez les informations de l'utilisateur.
 
-**Body**
-```json
+**Body :**```json
 {
   "id_user": 123,
   "nickname": "NomMisAJour",
@@ -189,8 +188,7 @@ PUT api/user/modifyPP
 
 Modifiez la photo de profil d'un utilisateur.
 
-**Body**
-```json
+**Body :**```json
 {
   "id_user": 123
 }
@@ -210,8 +208,7 @@ PUT api/user/modifyPassword
 
 Modifiez le mot de passe d'un utilisateur.
 
-**Body**
-```json
+**Body :**```json
 {
   "email": "utilisateur@example.com",
   "oldPassword": "ancien_mot_de_passe",
@@ -236,6 +233,292 @@ Supprimez un utilisateur par son ID.
 ```json
 {
   "message": "Utilisateur supprimé !"
+}
+```
+
+### Publication : 
+
+1. Créer une publication
+
+```vbnet
+POST api/publication/createPublication
+```
+
+Créez une nouvelle publication.
+
+**Body :** 
+
+```json
+{
+  "id_user": 123,
+  "content": "Contenu de la publication"
+}
+```
+**Response :**
+
+```json
+{
+  "message": "Publication créée !"
+}
+```
+
+2. Supprimer une publication
+```vbnet
+DELETE api/publication/deletePublication/:id
+```
+
+Supprimez une publication par son ID.
+
+**Response :**
+```json
+{
+  "message": "Publication supprimée !"
+}
+```
+3. GET /getOnePublication/:id
+
+```vbnet
+GET api/publication/getOnePublication/:id
+```
+
+Récupérez une publication par son ID.
+
+**Response :**
+```json
+{
+  "publication": {
+    "id_user": 1,
+    "nickname": "JohnDoe",
+    "profilepicture": "http://votre-url-de-base-de-lapi.com/images/user-profile.jpg",
+    "id_publication": 123,
+    "content": "Contenu de la publication",
+    "date_add": "2023-01-01T12:00:00Z",
+    "image": "http://votre-url-de-base-de-lapi.com/images/publication-image.jpg"
+  }
+}
+```
+
+4. Récupérer toutes les publications
+
+```vbnet
+GET api/publication/getAllPublications
+```
+
+Récupérez la liste de toutes les publications.
+
+**Response :**
+```json
+{
+  "publications": [
+    {
+      "id_user": 1,
+      "nickname": "JohnDoe",
+      "profilepicture": "http://votre-url-de-base-de-lapi.com/images/user-profile.jpg",
+      "id_publication": 123,
+      "content": "Contenu de la publication",
+      "date_add": "2023-01-01T12:00:00Z",
+      "image": "http://votre-url-de-base-de-lapi.com/images/publication-image.jpg"
+    },
+    // Autres publications
+  ]
+}
+```
+5. Récuperer les publications d'un utilisateur
+   
+```vbnet
+GET api/publication/getAllPublicationsFromUser/:id
+```
+
+Récupérez toutes les publications d'un utilisateur par son ID.
+
+**Response :**
+```json
+{
+  "publications": [
+    {
+      "id_publication": 123,
+      "content": "Contenu de la publication",
+      "date_add": "2023-01-01T12:00:00Z",
+      "image": "http://votre-url-de-base-de-lapi.com/images/publication-image.jpg"
+    },
+    // Autres publications de l'utilisateur
+  ]
+}
+```
+6. Modifier une publication 
+
+```vbnet
+PUT api/publication/modifyPost/:id
+```
+
+Modifiez l'image et le contenu d'une publication.
+
+**Body :** 
+
+```json
+{
+  "id_publication": 123,
+  "content": "Nouveau contenu de la publication"
+}
+```
+**Response :**
+
+```json
+{
+  "message": "Photo de profil Modifiée !",
+  "image": "http://votre-url-de-base-de-lapi.com/images/nouvelle-image.jpg"
+}
+```
+7. Modifier le contenut d'une publication
+
+```vbnet
+PUT api/publication/modifyPostContent/:id
+```
+
+Modifiez le contenu d'une publication.
+
+**Body :** 
+
+```json
+{
+  "id_publication": 123,
+  "content": "Nouveau contenu de la publication"
+}
+```
+**Response :**
+
+```json
+{
+  "message": "Post Modifié !"
+}
+```
+
+### Comment 
+
+1. Créer un commentaire
+```vbnet
+POST api/comment/createComment
+```
+
+Créez un nouveau commentaire.
+
+**Body :**
+```json
+{
+  "user_id_user": 123,
+  "publication_id_publication": 456,
+  "content": "Contenu du commentaire"
+}
+```
+**Response :**
+
+```json
+{
+  "message": "Commentaire créé !"
+}
+```
+2. DELETE /deleteComment/:id
+
+```vbnet
+DELETE api/comment/deleteComment/:id
+```
+
+Supprimez un commentaire par son ID.
+
+**Response :**
+```json
+{
+  "message": "Commentaire supprimé !"
+}
+```
+3. GET /getCommentsFromAPost/:id
+
+```vbnet
+GET api/comment/getCommentsFromAPost/:id
+```
+
+Récupérez tous les commentaires d'une publication par son ID.
+
+**Response :**
+```json
+{
+  "comments": [
+    {
+      "id_comment": 1,
+      "user_id_user": 123,
+      "nickname": "JohnDoe",
+      "profilepicture": "http://votre-url-de-base-de-lapi.com/images/user-profile.jpg",
+      "publication_id_publication": 456,
+      "content": "Contenu du commentaire",
+      "date_add": "2023-01-01T12:00:00Z"
+    },
+    // Autres commentaires
+  ]
+}
+```
+### React 
+
+1. Ajout d'une Réaction
+
+```vbnet
+POST api/react/addReact
+```
+
+Ajoutez une nouvelle réaction à une publication.
+
+**Body :**
+json
+{
+  "id_user": 123,
+  "id_publication": 456
+}
+**Response :**
+```json
+{
+  "message": "Réaction ajoutée !"
+}
+```
+
+2. Récupérer les réactions d'une publication
+   
+```vbnet
+GET api/react/getReactsFromAPublication/:id
+```
+
+Récupérez toutes les réactions d'une publication par son ID.
+
+**Response :**
+
+```json
+{
+  "reacts": [
+    {
+      "user_id_user": 123,
+      "publication_id_publication": 456
+    },
+    // Autres réactions
+  ]
+}
+```
+3. Supprimer une reaction
+
+```vbnet
+DELETE api/react/deleteReact
+```
+Supprimez une réaction d'une publication.
+
+**Body :**
+```json
+{
+  "id_user": 123,
+  "id_publication": 456
+}
+```
+
+**Response :**
+```json
+{
+  "message": "Réaction supprimée !"
 }
 ```
 
